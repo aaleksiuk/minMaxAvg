@@ -1,17 +1,18 @@
 ﻿using Microsoft.Win32.SafeHandles;
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.ExceptionServices;
 
 
-int[] numbers = InitializeTable();
+var numbers = InitializeTable();
 
-for (int i = 0; i < numbers.Length; i++)
+for (var i = 0; i < numbers.Length; i++)
 {
     numbers[i] = GetValue(i);
 }
 
-int minNumber = numbers.Min();
-int maxNumber = numbers.Max();
-double average = numbers.Average();
+var minNumber = MinValue();
+var maxNumber = MaxValue();
+var average = AverageValue();
 
 Console.WriteLine($"Maximum number is: {maxNumber}\nMinimum number is: {minNumber}\nAverage number is: {average}");
 
@@ -23,7 +24,7 @@ int[] InitializeTable()
         Console.WriteLine("Quantity of numbers from user:");
         lenght = Convert.ToInt32(Console.ReadLine());
         if (lenght >= 1)
-        {
+        { 
             return new int[lenght];
         }
         else
@@ -50,7 +51,46 @@ int GetValue(int i)
 
     catch (Exception e)
     {
-        Console.WriteLine(e);
+        Console.WriteLine(e.Message);
         return GetValue(i);
     }
 }
+decimal AverageValue()
+{
+    decimal sum = 0;
+    for (var i = 0; i < numbers.Length; i++)
+    {
+
+        sum += numbers[i];
+    }
+
+    return sum / numbers.Length;
+}
+
+int MinValue()
+{
+    int min = numbers[0];
+    for (int i = 1; i < numbers.Length; i++)
+    {
+
+        if (min > numbers[i])
+        {
+            min = numbers[i];
+        }
+    }
+    return min;
+}
+
+int MaxValue()
+{
+    int max= numbers[0];
+    for (int i = 1; i < numbers.Length; i++)
+    {
+        if (numbers[i] > max)
+        {
+            max = numbers[i];
+        }
+    }
+    return max;
+}
+
